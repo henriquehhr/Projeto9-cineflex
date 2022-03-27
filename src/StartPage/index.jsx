@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { $MovieList, $StartPage } from "./style";
 import MoviePoster from "./../MoviePoster";
@@ -15,11 +16,13 @@ export default function StartPage() {
         <$StartPage>
             <p>Selecione o filme</p>
             <$MovieList>
-                {moviesList.map(movie => <MoviePoster
-                    key={movie.id}
-                    title={movie.title}
-                    posterURL={movie.posterURL}
-                />)}
+                {moviesList.map(movie =>
+                    <Link to={`/filme/${movie.id}`} key={movie.id}>
+                        <MoviePoster
+                            title={movie.title}
+                            posterURL={movie.posterURL}
+                        />
+                    </Link>)}
             </$MovieList>
         </$StartPage>
     );
