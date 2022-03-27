@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { $ChooseSeatPage, $Seats, $Seat } from "./style";
 
 
 export default function ChooseSeatPage() {
@@ -8,6 +9,7 @@ export default function ChooseSeatPage() {
     const [chosenSeats, setChosenSeats] = useState([]);
     const [buyerID, setBuyerID] = useState({ name: "", cpf: 0 });
     const { sessionID } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const promisse = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sessionID}/seats`);
@@ -15,10 +17,16 @@ export default function ChooseSeatPage() {
     }, []);
 
     function choseSeat(e) {
-        setChosenSeats([...choseSeat, e.target.id]);
+        const seatID = parseInt(e.target.id);
+        if (chosenSeats.includes(seatID)) {
+            const newChosenSeats = chosenSeats.filter(seat => seat != seatID);
+            setChosenSeats(newChosenSeats);
+        }
+        else setChosenSeats([...chosenSeats, seatID]);
     }
 
-    function bookSeats() {
+    function bookSeats(e) {
+        e.preventDefault();
         if (chosenSeats.length == 0)
             return;
         const bookInfo = {
@@ -28,29 +36,35 @@ export default function ChooseSeatPage() {
         };
         const promisse = axios.post("https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many", bookInfo);
         promisse.then(() => {
-
+            navigate("/sucesso", { state: { bookInfo: bookInfo, session: unavaliableSeats } });
         });
     }
 
-    if (unavaliableSeats.id) return (
-        <section>
-            <p>Selecione o(s) assentos(s)</p>
-            <ol>
-                {unavaliableSeats.movie.seats.map(seat => {
-                    <li key={seat.id} onClick={choseSeat} id={seat.id}>
-                        {seat.id < 10 ? "0" + seat.id : seat.id}
-                    </li>
-                })}
-            </ol>
-            <form onSubmit={bookSeats}>
-                <label>Nome do comprador:</label>
-                <input type="text" />
-                <label>CPF do comprador:</label>
-                <input type="text" />
-                <button type="submit">Reservar assento(s)</button>
-            </form>
-        </section>
-    );
+    if (unavaliableSeats.id) {
+        return (
+            <$ChooseSeatPage>
+                <p>Selecione o(s) assentos(s)</p>
+                <$Seats>
+                    {unavaliableSeats.seats.map(seat =>
+                        <$Seat
+                            key={seat.id}
+                            onClick={seat.isAvailable ? choseSeat : () => { }}
+                            id={seat.id}
+                            className={seat.isAvailable ? (chosenSeats.includes(seat.id) ? "selected" : "") : "unavailable"}>
+                            {seat.name.length < 2 ? "0" + seat.name : seat.name}
+                        </$Seat>
+                    )}
+                </$Seats>
+                <form onSubmit={bookSeats}>
+                    <label>Nome do comprador:</label>
+                    <input type="text" />
+                    <label>CPF do comprador:</label>
+                    <input type="text" />
+                    <button type="submit">Reservar assento(s)</button>
+                </form>
+            </$ChooseSeatPage>
+        );
+    }
 
     return <></>;
 } 

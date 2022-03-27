@@ -4,6 +4,7 @@ import MovieSessionPage from "../MovieSessionPage";
 import ChooseSeatPage from "../ChooseSeatPage";
 import SuccessPage from "../SuccessPage";
 import { $Header } from "./style";
+import "./../../src/reset.css";
 
 export default function App() {
     return (
