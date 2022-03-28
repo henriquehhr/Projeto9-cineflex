@@ -30,7 +30,7 @@ export default function ChooseSeatPage() {
         if (chosenSeats.length == 0)
             return;
         const bookInfo = {
-            ids: chosenSeats,
+            ids: chosenSeats.map(seat => unavaliableSeats.seats.find(unaSeat => unaSeat.id == seat).name),
             name: buyerID.name,
             cpf: buyerID.cpf
         };
@@ -57,9 +57,9 @@ export default function ChooseSeatPage() {
                 </$Seats>
                 <form onSubmit={bookSeats}>
                     <label>Nome do comprador:</label>
-                    <input type="text" />
+                    <input type="text" value={buyerID.name} onChange={e => setBuyerID({ name: e.target.value, cpf: buyerID.cpf })} />
                     <label>CPF do comprador:</label>
-                    <input type="text" />
+                    <input type="text" value={buyerID.cpf} onChange={e => setBuyerID({ name: buyerID.name, cpf: parseInt(e.target.value) || "" })} />
                     <button type="submit">Reservar assento(s)</button>
                 </form>
             </$ChooseSeatPage>
