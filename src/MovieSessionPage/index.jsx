@@ -2,6 +2,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { $MovieSessionPage } from "./style";
+import CineFooter from "./../CineFooter";
 
 export default function MovieSessionPage() {
     const [movie, setMovie] = useState({});
@@ -24,6 +25,10 @@ export default function MovieSessionPage() {
                         </Link>)}
                     </div>;
                 })}
+                <CineFooter
+                    movieImg={movie.posterURL}
+                    movieTitle={movie.title}
+                />
             </$MovieSessionPage>
         );
     return <>aguardando</>;

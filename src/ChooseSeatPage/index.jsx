@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { $ChooseSeatPage, $Seats, $Seat } from "./style";
+import CineFooter from "./../CineFooter";
 
 
 export default function ChooseSeatPage() {
@@ -62,6 +63,12 @@ export default function ChooseSeatPage() {
                     <input type="text" value={buyerID.cpf} onChange={e => setBuyerID({ name: buyerID.name, cpf: parseInt(e.target.value) || "" })} />
                     <button type="submit">Reservar assento(s)</button>
                 </form>
+                <CineFooter
+                    movieImg={unavaliableSeats.movie.posterURL}
+                    movieTitle={unavaliableSeats.movie.title}
+                    weekday={unavaliableSeats.day.weekday}
+                    session={unavaliableSeats.name}
+                />
             </$ChooseSeatPage>
         );
     }

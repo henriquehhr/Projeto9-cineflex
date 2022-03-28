@@ -19,6 +19,9 @@ export default function SuccessPage() {
             <p>Comprador</p>
             <p>Nome: {navigate.state.bookInfo.name}</p>
             <p>CPF: {navigate.state.bookInfo.cpf}</p>
+            <Link to="/">
+                <button>Voltar pra Home</button>
+            </Link>
         </$SuccessPage>
     );
 }
