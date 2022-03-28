@@ -21,6 +21,7 @@ export const $CineFooter = styled.footer`
         font-weight: 400;
         font-size: 26px;
         color: #293845;
+        text-overflow: ellipsis;
     }
 `;
 

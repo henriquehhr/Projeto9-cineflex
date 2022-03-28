@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { $MovieSessionPage } from "./style";
+import { $MovieSessionPage, $SessionButton, $SessionList } from "./style";
 import CineFooter from "./../CineFooter";
 
 export default function MovieSessionPage() {
@@ -16,13 +16,15 @@ export default function MovieSessionPage() {
     if (movie.days)
         return (
             <$MovieSessionPage>
-                <p>Selecione o horário</p>
+                <p className="header">Selecione o horário</p>
                 {movie.days.map(day => {
                     return <div key={day.id} >
                         <p>{day.weekday} - {day.date}</p>
-                        {day.showtimes.map(session => <Link to={`/sessao/${session.id}`} key={session.id}>
-                            <button>{session.name}</button>
-                        </Link>)}
+                        <$SessionList>
+                            {day.showtimes.map(session => <Link to={`/sessao/${session.id}`} key={session.id}>
+                                <$SessionButton>{session.name}</$SessionButton>
+                            </Link>)}
+                        </$SessionList>
                     </div>;
                 })}
                 <CineFooter
