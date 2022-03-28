@@ -55,7 +55,7 @@ export default function ChooseSeatPage() {
                     {unavaliableSeats.seats.map(seat =>
                         <$Seat
                             key={seat.id}
-                            onClick={seat.isAvailable ? choseSeat : () => { }}
+                            onClick={seat.isAvailable ? choseSeat : () => alert("Esse assento não está disponível")}
                             id={seat.id}
                             className={seat.isAvailable ? (chosenSeats.includes(seat.id) ? "selected" : "") : "unavailable"}>
                             {seat.name.length < 2 ? "0" + seat.name : seat.name}

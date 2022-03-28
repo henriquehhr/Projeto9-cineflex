@@ -65,6 +65,7 @@ export const $Input = styled.input`
     width: 100%;
     padding: 15px;
     margin-bottom: 7px;
+    font-size: 20px;
 
     ::placeholder {
         font-style: italic;
@@ -94,5 +95,5 @@ export const $SubmitButton = styled.button`
     font-size: 18px;
     text-align: center;
     color: #FFFFFF;
-    margin: 35px auto 0 auto;
+    margin: 25px auto 0 auto;
 `;
