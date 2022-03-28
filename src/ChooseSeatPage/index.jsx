@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { $ChooseSeatPage, $Seats, $Seat } from "./style";
+import { $ChooseSeatPage, $Seats, $Seat, $SubmitButton, $Input, $Label, $SeatLabel } from "./style";
 import CineFooter from "./../CineFooter";
 
 
 export default function ChooseSeatPage() {
     const [unavaliableSeats, setUnavaliableSeats] = useState([]);
     const [chosenSeats, setChosenSeats] = useState([]);
-    const [buyerID, setBuyerID] = useState({ name: "", cpf: 0 });
+    const [buyerID, setBuyerID] = useState({ name: "", cpf: undefined });
     const { sessionID } = useParams();
     const navigate = useNavigate();
 
@@ -56,12 +56,20 @@ export default function ChooseSeatPage() {
                         </$Seat>
                     )}
                 </$Seats>
+                <$SeatLabel>
+                    <$Seat className="selected" />
+                    <$Seat></$Seat>
+                    <$Seat className="unavailable" />
+                    <span>Selecionado</span>
+                    <span>Disponível</span>
+                    <span>Indisponível</span>
+                </$SeatLabel>
                 <form onSubmit={bookSeats}>
-                    <label>Nome do comprador:</label>
-                    <input type="text" value={buyerID.name} onChange={e => setBuyerID({ name: e.target.value, cpf: buyerID.cpf })} />
-                    <label>CPF do comprador:</label>
-                    <input type="text" value={buyerID.cpf} onChange={e => setBuyerID({ name: buyerID.name, cpf: parseInt(e.target.value) || "" })} />
-                    <button type="submit">Reservar assento(s)</button>
+                    <$Label>Nome do comprador:</$Label>
+                    <$Input placeholder="Digite seu nome..." type="text" value={buyerID.name} onChange={e => setBuyerID({ name: e.target.value, cpf: buyerID.cpf })} />
+                    <$Label>CPF do comprador:</$Label>
+                    <$Input placeholder="Digite seu CPF..." type="text" value={buyerID.cpf} onChange={e => setBuyerID({ name: buyerID.name, cpf: parseInt(e.target.value) || "" })} />
+                    <$SubmitButton type="submit">Reservar assento(s)</$SubmitButton>
                 </form>
                 <CineFooter
                     movieImg={unavaliableSeats.movie.posterURL}
