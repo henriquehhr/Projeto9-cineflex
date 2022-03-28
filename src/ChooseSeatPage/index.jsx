@@ -28,8 +28,14 @@ export default function ChooseSeatPage() {
 
     function bookSeats(e) {
         e.preventDefault();
-        if (chosenSeats.length == 0)
+        if (chosenSeats.length == 0) {
+            alert("Escolha um assento");
             return;
+        }
+        if (!buyerID.name || !buyerID.cpf || parseInt(buyerID.cpf) < 0 || buyerID.cpf.length < 11) {
+            alert("Informe o nome e CPF corretamente");
+            return;
+        }
         const bookInfo = {
             ids: chosenSeats.map(seat => unavaliableSeats.seats.find(unaSeat => unaSeat.id == seat).name),
             name: buyerID.name,
@@ -68,7 +74,7 @@ export default function ChooseSeatPage() {
                     <$Label>Nome do comprador:</$Label>
                     <$Input placeholder="Digite seu nome..." type="text" value={buyerID.name} onChange={e => setBuyerID({ name: e.target.value, cpf: buyerID.cpf })} />
                     <$Label>CPF do comprador:</$Label>
-                    <$Input placeholder="Digite seu CPF..." type="text" value={buyerID.cpf} onChange={e => setBuyerID({ name: buyerID.name, cpf: e.target.value ?? "" })} />
+                    <$Input placeholder="Digite seu CPF..." type="number" value={buyerID.cpf} onChange={e => setBuyerID({ name: buyerID.name, cpf: e.target.value ?? "" })} />
                     <$SubmitButton type="submit">Reservar assento(s)</$SubmitButton>
                 </form>
                 <CineFooter
